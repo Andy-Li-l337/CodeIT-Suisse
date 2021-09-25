@@ -17,7 +17,9 @@ def counting():
     people = {k: v for k, v in sorted(
         people.items(), key=lambda item: item[1], reverse=True)}
     peopleName = list(people.keys())
-    logger.info(people)
+    peopleName = [x for x in data.split(",")]
+    logger.info("Current count:", people)
+    logger.info("Current guess", peopleName[:10])
     return ",".join(peopleName[:10])
 
 
