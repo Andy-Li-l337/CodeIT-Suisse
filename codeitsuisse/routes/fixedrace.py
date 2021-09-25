@@ -18,3 +18,8 @@ def counting():
         people.items(), key=lambda item: item[1], reverse=True)}
     peopleName = list(people.keys())
     return ",".join(peopleName[:10])
+
+
+@app.route('/fixedrace', methods=['GET'])
+def tester():
+    return "Not Reachable"
