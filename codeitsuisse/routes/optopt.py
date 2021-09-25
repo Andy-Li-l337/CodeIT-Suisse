@@ -26,4 +26,4 @@ def solve(options, gauss):
     option_ev = [(i['mean'] - j['strike']+j['premium']) if j['type'] ==
                  "call" else -(i['mean'] - j['strike']+j['premium']) for j in options]
     target = option_ev.index(max(option_ev)) if max(option_ev) > 0 else None
-    return json.dumps([100])
+    return json.dumps([100] + [0]*(len(options)-1))
