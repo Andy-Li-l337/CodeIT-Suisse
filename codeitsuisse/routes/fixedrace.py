@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 def counting():
     global people
     data = request.get_data(as_text=True)
-    logger.warning("Data Received", data)
     for i in data.split(","):
         if i not in people:
             people[i] = 0
@@ -19,8 +18,6 @@ def counting():
         people.items(), key=lambda item: item[1], reverse=True)}
     peopleName = list(people.keys())
     peopleName = [x for x in people.keys() if x in data.split(",")]
-    print(people)
-    print(peopleName)
     return ",".join(peopleName[:10])
 
 
