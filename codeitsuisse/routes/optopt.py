@@ -1,8 +1,6 @@
 import logging
 import json
-from scipy.stats import truncnorm, rv_continuous
 from flask import request, jsonify
-import math
 
 from codeitsuisse import app
 
