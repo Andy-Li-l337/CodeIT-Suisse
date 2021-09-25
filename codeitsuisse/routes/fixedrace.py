@@ -20,7 +20,7 @@ def counting():
     peopleName = list(people.keys())
     peopleName = [x for x in data.split(",")]
     logger.info("Current count:")
-    logger.info(people)
+    logger.info(str(people))
     logger.info("Current guess", peopleName[:10])
     return ",".join(peopleName[:10])
 
