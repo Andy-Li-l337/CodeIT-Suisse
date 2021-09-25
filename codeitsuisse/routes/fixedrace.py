@@ -17,6 +17,7 @@ def counting():
     people = {k: v for k, v in sorted(
         people.items(), key=lambda item: item[1], reverse=True)}
     peopleName = list(people.keys())
+    logger.info(people)
     return ",".join(peopleName[:10])
 
 
