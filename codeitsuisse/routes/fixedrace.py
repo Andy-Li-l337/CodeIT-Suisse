@@ -2,14 +2,13 @@ import logging
 import json
 from flask import request, jsonify
 from codeitsuisse import app
-#from codeitsuisse import people
+from codeitsuisse import people
 logger = logging.getLogger(__name__)
 
 
 @app.route('/fixedrace', methods=['POST'])
 def counting():
-    #global people
-    people = {}
+    global people
     data = request.get_data(as_text=True)
     for i in data.split(","):
         if i not in people:
