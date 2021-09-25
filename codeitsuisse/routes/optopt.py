@@ -13,6 +13,7 @@ def calculate():
     logging.info("data sent for evaluation {}".format(data))
     options, gauss = data.get("options"), data.get("view")
     result = solve(options, gauss)
+    logging.info("Data returned", result)
     return result  # json.dumps(result)
 
 
