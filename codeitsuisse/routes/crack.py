@@ -3,23 +3,31 @@ from flask import request, jsonify
 from codeitsuisse import app
 import hashlib
 import math
+import random
 logger = logging.getLogger(__name__)
 
 
-@app.route('/cipher-cracking', methods=['POST'])
+def findK(z):
+    if(z['D'] <= 5):
+        f_x = math.floor((0.99992841*math.log(int(z['X']))-0.4214743)*100)/100
+        for k in range(10**(z['D'])):
+            for j in range(-20, 20):
+                encodingstr = f"{k}::{f_x+0.001*j:.3f}"
+                shaed_data = hashlib.sha256(
+                    encodingstr.encode('utf-8')).hexdigest()
+                if str(shaed_data) == str(z['Y']):
+                    print("SOLUTION:", z['X'], f"{f_x+0.001*j:.3f}", j)
+                    return k
+        print(z['X'], f_x, "FAILED")
+    return 0
+
+
+@ app.route('/cipher-cracking', methods=['POST'])
 def crackCode():
     data = request.get_json()
     answer = "NULL"
+    sol = []
     logger.info(data)
     for i in data:
-        if i['est_mins'] < 0.5:
-            f_x = math.ceil(math.log(int(i['X'])-1)*1000)/1000
-            for k in range(10**(i['D'])):
-                for g in range(1000000):
-                    encodingstr = f"{k}::{g//1000}.{g%1000:0>3}"
-                    shaed_data = hashlib.sha256(
-                        encodingstr.encode('utf-8')).hexdigest()
-                    if str(shaed_data) == str(i['Y']):
-                        print("SOLUTION:", k, g/1000)
-                        return str(data)
-    return str(data)
+        sol.append(findK(i))
+    return tuple(sol)
