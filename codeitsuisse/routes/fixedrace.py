@@ -18,6 +18,7 @@ def counting():
         people.items(), key=lambda item: item[1], reverse=True)}
     peopleName = list(people.keys())
     peopleName = [x for x in people.keys() if x in data.split(",")]
+    logger.info(people)
     return ",".join(peopleName[:10])
 
 
