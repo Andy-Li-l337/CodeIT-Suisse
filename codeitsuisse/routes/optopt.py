@@ -25,6 +25,7 @@ def solve(options, gauss):
                            math.sqrt(i['var']), loc=i['mean'], scale=math.sqrt(i['var'])): i['weight'] for i in gauss}
     rv = list(gaussians.keys())[0]
     returns = [optReturn(rv, j) for j in options]
+    print(returns)
     ans = [0] * len(returns)
     if max(returns) >= abs(min(returns)):
         ans[returns.index(max(returns))] = 100
@@ -36,8 +37,8 @@ def solve(options, gauss):
 def optReturn(dist, option):
     x = np.linspace(dist.ppf(0.01), dist.ppf(0.99), 100)
     if option['type'] == "call":
-        np.multiply(np.transpose(dist.pdf(x)), np.where(
-            x < option['strike'], -option['premium'], x-(option['strike']+option['premium'])))
+        return np.matmul(dist.pdf(x), np.where(
+            x < option['strike'], -option['premium'], x-(option['strike']+option['premium'])).reshape(-1, 1))
     else:
-        np.multiply(np.transpose(dist.pdf(x)), np.where(
-            x > option['strike'], -option['premium'], (option['strike']-option['premium'])-x))
+        return np.matmul(dist.pdf(x), np.where(
+            x > option['strike'], -option['premium'], (option['strike']-option['premium'])-x).reshape(-1, 1))
