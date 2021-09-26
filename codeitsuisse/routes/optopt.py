@@ -24,7 +24,7 @@ def solve(options, gauss):
     gaussians = {truncnorm((i['min'] - i['mean']) / math.sqrt(i['var']), (i['max'] - i['mean']) /
                            math.sqrt(i['var']), loc=i['mean'], scale=math.sqrt(i['var'])): i['weight'] for i in gauss}
     rv = list(gaussians.keys())[0]
-    returns = [optReturn(rv, j) for j in options]
+    returns = [optReturnForDists(gaussians, j) for j in options]
     print(returns)
     ans = [0] * len(returns)
     if max(returns) >= abs(min(returns)):
@@ -34,7 +34,13 @@ def solve(options, gauss):
     return ans
 
 
-def optReturn(dist, option):
+def optReturnForDists(dists, option):
+    weightedReturns = [optReturnForDist(
+        k, option) * v for k, v in dists.items()]
+    return sum(weightedReturns)/len(weightedReturns)
+
+
+def optReturnForDist(dist, option):
     x = np.linspace(dist.ppf(0.01), dist.ppf(0.99), 100)
     if option['type'] == "call":
         return np.matmul(dist.pdf(x), np.where(
