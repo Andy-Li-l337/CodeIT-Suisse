@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @app.route('/optopt', methods=['POST'])
 def calculate():
     data = request.get_json()
-    # logger.info(data)
+    logger.info(data)
     options, gauss = data.get("options"), data.get("view")
     result = solve(options, gauss)
     logger.info(result)
