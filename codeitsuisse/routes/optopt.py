@@ -42,7 +42,7 @@ def optReturnForDists(dists, option):
 
 
 def optReturnForDist(dist, option):
-    x = np.linspace(dist.ppf(0.01), dist.ppf(0.99), 100)
+    x = np.linspace(dist.ppf(0.001), dist.ppf(0.999), 1500)
     if option['type'] == "call":
         return np.matmul(dist.pdf(x), np.where(
             x < option['strike'], -option['premium'], x-(option['strike']+option['premium'])).reshape(-1, 1))
