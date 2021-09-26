@@ -21,12 +21,10 @@ def calculate():
 
 
 def solve(options, gauss):
-    gaussians = [(truncnorm((i['min'] - i['mean']) / math.sqrt(i['var']), (i['max'] - i['mean']) /
-                            math.sqrt(i['var']), loc=i['mean'], scale=math.sqrt(i['var'])), i['weight']) for i in gauss]
-    rv = gaussians[0][0]
-    x = np.linspace(rv.ppf(0.0001), rv.ppf(0.9999), 1000)
-    returns = [np.sum(np.multiply(averageStockProbability(gaussians, x), np.where(x < j['strike'], -j['premium'], x-(j['strike']+j['premium'])))) if j["type"] ==
-               "call" else np.sum(np.multiply(averageStockProbability(gaussians, x), np.where(x > j['strike'], -j['premium'], (j['strike']-j['premium'])-x))) for j in options]
+    gaussians = {truncnorm((i['min'] - i['mean']) / math.sqrt(i['var']), (i['max'] - i['mean']) /
+                           math.sqrt(i['var']), loc=i['mean'], scale=math.sqrt(i['var'])): i['weight'] for i in gauss}
+    rv = gaussians.keys()[0]
+    returns = [optReturn(rv, j) for j in options]
     ans = [0] * len(returns)
     if max(returns) >= abs(min(returns)):
         ans[returns.index(max(returns))] = 100
@@ -35,8 +33,11 @@ def solve(options, gauss):
     return ans
 
 
-def averageStockProbability(gaussians, x):
-    total = 0
-    for _, w in gaussians:
-        total += w
-    return sum([np.multiply(i.pdf(x), weight)/total for i, weight in gaussians])
+def optReturn(dist, option):
+    x = np.linspace(dist.ppf(0.01), dist.ppf(0.99), 100)
+    if option['type'] == "call":
+        np.multiply(np.transpose(dist.pdf(x)), np.where(
+            x < option['strike'], -option['premium'], x-(option['strike']+option['premium'])))
+    else:
+        np.multiply(np.transpose(dist.pdf(x)), np.where(
+            x > option['strike'], -option['premium'], (option['strike']-option['premium'])-x))
