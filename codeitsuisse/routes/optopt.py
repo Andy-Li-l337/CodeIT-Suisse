@@ -35,17 +35,21 @@ def solve(options, gauss):
 
 
 def optReturnForDists(dists, option):
-    weightedReturns = [optReturnForDist(
-        k, option) * v for k, v in dists.items()]
+    sample_size = 1000
+    totalWeight = sum(list(dists.values()))
+    random_idx = np.random.choice(np.arange(len(dists)), size=(sample_size,), p=[
+        v/totalWeight for v in dists.values()])
+    data = np.zeros((sample_size, len(dists)))
+    for idx, distr in enumerate(list(dists.keys())):
+        data[:, idx] = distr.rvs(size=sample_size)
+    sample = data[np.arange(sample_size), random_idx]
+    return optReturnForDist(sample, option)
 
-    return np.sum(weightedReturns)/sum(list(dists.values()))
 
-
-def optReturnForDist(dist, option):
-    x = np.linspace(dist.ppf(0.01), dist.ppf(0.99), 100)
+def optReturnForDist(stockPrices, option):
     if option['type'] == "call":
-        return np.matmul(dist.pdf(x), np.where(
-            x < option['strike'], -option['premium'], x-(option['strike']+option['premium'])).reshape(-1, 1))
+        return np.matmul(stockPrices, np.where(
+            stockPrices < option['strike'], -option['premium'], stockPrices-(option['strike']+option['premium'])).reshape(-1, 1))
     else:
-        return np.matmul(dist.pdf(x), np.where(
-            x > option['strike'], -option['premium'], (option['strike']-option['premium'])-x).reshape(-1, 1))
+        return np.matmul(stockPrices, np.where(
+            stockPrices > option['strike'], -option['premium'], (option['strike']-option['premium'])-stockPrices).reshape(-1, 1))
