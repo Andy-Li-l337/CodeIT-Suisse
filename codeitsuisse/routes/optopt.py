@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 @app.route('/optopt', methods=['POST'])
 def calculate():
     data = request.get_json()
-    logger.info(data)
+    # logger.info(data)
     options, gauss = data.get("options"), data.get("view")
     result = solve(options, gauss)
     logger.info(result)
@@ -37,11 +37,12 @@ def solve(options, gauss):
 def optReturnForDists(dists, option):
     weightedReturns = [optReturnForDist(
         k, option) * v for k, v in dists.items()]
-    return sum(weightedReturns)/len(weightedReturns)
+
+    return np.sum(weightedReturns)/sum(list(dists.values()))
 
 
 def optReturnForDist(dist, option):
-    x = np.linspace(dist.ppf(0.001), dist.ppf(0.999), 1000)
+    x = np.linspace(dist.ppf(0.01), dist.ppf(0.99), 100)
     if option['type'] == "call":
         return np.matmul(dist.pdf(x), np.where(
             x < option['strike'], -option['premium'], x-(option['strike']+option['premium'])).reshape(-1, 1))
