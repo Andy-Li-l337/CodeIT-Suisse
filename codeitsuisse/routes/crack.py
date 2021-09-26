@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 def findK(z):
-    if(z['D'] <= 6 and int(z['challenge_no']) <= 29):
+    if(z['D'] <= 6 and int(z['challenge_no']) <= 28):
         f_x = math.floor((0.99993543*math.log(int(z['X']))-0.421614)*100)/100
         for k in range(10**(z['D'])+1):
             for j in range(10, -1, -1):
