@@ -35,7 +35,7 @@ def solve(options, gauss):
 
 
 def optReturnForDists(dists, option):
-    sample_size = 1000
+    sample_size = 4000
     totalWeight = sum(list(dists.values()))
     random_idx = np.random.choice(np.arange(len(dists)), size=(sample_size,), p=[
         v/totalWeight for v in dists.values()])
