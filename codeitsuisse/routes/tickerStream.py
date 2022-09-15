@@ -2,12 +2,12 @@ import logging
 import json
 
 from flask import request, jsonify
-
 from codeitsuisse import app
 
-
 @app.route("/tickerStreamPart1", methods=['POST'])
-def to_cumulative(stream: list) -> list:
+def to_cumulative():
+    #print(request.get_json())
+    stream = request.get_json()["stream"]
     outList = []
     agg = dict()
     tickerList = dict()
@@ -36,7 +36,9 @@ def to_cumulative(stream: list) -> list:
 
 
 @app.route("/tickerStreamPart2", methods=['POST'])
-def to_cumulative_delayed(stream: list, quantity_block: int) -> list:
+def to_cumulative_delayed() -> list:
+    stream = request.get_json()['stream']
+    quantity_block = request.get_json()['quantityBlock']
     outList = []
     agg = dict()
     tickerList = dict()
