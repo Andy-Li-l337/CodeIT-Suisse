@@ -4,7 +4,7 @@ from flask import request, jsonify
 from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
-@app.route("/magiccauldrons", methods=['POST'])
+@app.route("/ /magiccauldrons", methods=['POST'])
 def sol():
     
     output = []
