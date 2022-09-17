@@ -2,11 +2,11 @@ import logging
 import json
 from flask import request, jsonify
 from codeitsuisse import app
-
+import time
 logger = logging.getLogger(__name__)
 @app.route("/ /magiccauldrons", methods=['POST'])
 def sol():
-    
+    startTime = time.time()
     output = []
     for case in request.get_json():
         for i in case.items():
@@ -21,8 +21,12 @@ def sol():
         "part3":part3sol,
         "part4":part4sol
         })
+        if time.time()-startTime > 3.8:
+            break
+    logger.info("*"*30)
     for i in output:
-        print(i)
+        logger.info(i)
+    logger.info("*"*30)
     return jsonify(output)
 def part1(water,row,col):
     return round(hundredCauldronsSearch(water,row,col),2)
@@ -125,7 +129,7 @@ def hundredFiftyCauldronsSearch(total,row,col):
         waterInLevel = False
         for i in range(level+1):
             if cauldrons[level][i] > capacity:
-                extraWater = cauldrons[level][i] - capacity * (1 if level % 2 else 1.5)
+                extraWater = cauldrons[level][i] - capacity * (1 if i % 2 else 1.5)
                 try:
                     cauldrons[level][i] = capacity
                     cauldrons[level+1][i] += extraWater / 2
