@@ -94,6 +94,7 @@ def hundredCauldronsSearch(total,row,col):
         #assert(level<300)
     return cauldrons[row][col]
 
+
 def hundredFiftyCauldronsSearch(total,row,col):
     capacity = 100
     cauldrons = [[0 for x in range(500)] for y in range(500)] 
@@ -103,15 +104,17 @@ def hundredFiftyCauldronsSearch(total,row,col):
     while(waterInLevel):
         waterInLevel = False
         for i in range(level+1):
-            if cauldrons[level][i] > capacity* (1 if i % 2 else 1.5):
+            if cauldrons[level][i] > capacity * (1 if i % 2 else 1.5):
                 extraWater = cauldrons[level][i] - capacity * (1 if i % 2 else 1.5)
                 try:
-                    cauldrons[level][i] = capacity
+                    cauldrons[level][i] = capacity * (1 if i % 2 else 1.5)
                     cauldrons[level+1][i] += extraWater / 2
                     cauldrons[level+1][i+1] += extraWater / 2
                 except:
                     raise OverflowError(level, i)
                 waterInLevel = True
         level += 1
-        # print(level)
+    
+    for i in cauldrons:
+        print(i[0:5])
     return cauldrons[row][col]
