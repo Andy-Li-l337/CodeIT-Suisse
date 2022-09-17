@@ -31,7 +31,7 @@ def sol():
 def part1(water,row,col):
     return round(hundredCauldronsSearch(water,row,col),2)
 def part2(rate,amt,row,col):
-    upT = 999
+    upT = (row+col+2)*100//rate
     lowT = 1
     newT = searchPart2(lowT,upT,rate,amt,row,col)
     return round(newT)
@@ -40,15 +40,13 @@ def searchPart2(lowT,upT,rate,TargetAmt,row,col):
     step = 0
     while condition:
         midT = (lowT+upT)/2
-        # print(lowT,midT,upT)
-        # print(hundredCauldronsSearch(lowT*rate,row,col)- TargetAmt, (hundredCauldronsSearch(midT*rate,row,col) - TargetAmt))
         if (hundredCauldronsSearch(lowT*rate,row,col) - TargetAmt) * (hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) < 0:
             upT = midT
         else:
             lowT = midT
         condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5 and step < 20
         step += 1
-    return int(midT+0.5)
+    return round(midT)
 def part3(water,row,col):
     return round(hundredFiftyCauldronsSearch(water,row,col),2)
 
