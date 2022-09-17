@@ -65,7 +65,7 @@ def makeQuery():
         
     return jsonify(output)
 
-@app.route("/clear",methods=["POST"])
+@app.route("/clearDNS",methods=["POST"])
 def resetDNS():
     with open('lookUp.json', "w") as f:
         json.dump({"lookupTable":{}},f)
