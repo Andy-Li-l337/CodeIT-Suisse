@@ -21,6 +21,8 @@ def sol():
         "part3":part3sol,
         "part4":part4sol
         })
+    for i in output:
+        print(i)
     return jsonify(output)
 def part1(water,row,col):
     return round(hundredCauldronsSearch(water,row,col),2)
@@ -31,7 +33,6 @@ def part2(rate,amt,row,col):
     low = hundredCauldronsSearch((newT-1)*rate,row,col)
     mid = hundredCauldronsSearch(newT*rate,row,col)
     up = hundredCauldronsSearch((newT+1)*rate,row,col) 
-    print("DONE Searching")
     if amt < (low+mid)/2:
         return newT-1
     if (low+mid)/2 < amt < (mid+up)/2:
