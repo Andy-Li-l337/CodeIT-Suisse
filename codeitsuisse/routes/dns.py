@@ -51,9 +51,9 @@ def makeQuery():
         count = int(f.read())
         f.truncate(0)
         f.write(str(count+1))
-    if count == 0:
-        logger.info(request.get_json())
-        return jsonify({})
+    # if count == 0:
+    #     logger.info(request.get_json())
+    #     return jsonify({})
     cache = LRUCache(request.get_json()['cacheSize'])
     output = []
     with open('lookUp.json') as f:
@@ -63,7 +63,7 @@ def makeQuery():
     for url in request.get_json()['log']:
         if url not in dnsMap:
             output.append({"status":"invalid",
-            "ipAddress":"null"})
+            "ipAddress":None})
             continue
         cachedUrl = cache.get(url)
         if cachedUrl != -1:
