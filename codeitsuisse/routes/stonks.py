@@ -41,7 +41,7 @@ def stonkSolve():
                         if capitalAvailable // timeline[curYear][company][0] > 0 and change > 0:
                             investedCapital = capitalAvailable - capitalAvailable%timeline[curYear][company][0]
                             investments[company] = capitalAvailable // timeline[curYear][company][0]
-                            orders.append(f"b-{company}-{investments[company]}")
+                            orders.append(f"b-{company}-{int(investments[company])}")
                             absReturn += change*investedCapital
                             capitalAvailable -= investedCapital
                     deltaYearReturnTable[int(targetYear)-int(curYear)] = max(absReturn,0), investments, capitalAvailable, orders
