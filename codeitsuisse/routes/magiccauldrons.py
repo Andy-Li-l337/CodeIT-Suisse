@@ -3,6 +3,7 @@ import json
 from flask import request, jsonify
 from codeitsuisse import app
 import time
+import random
 logger = logging.getLogger(__name__)
 @app.route("/ /magiccauldrons", methods=['POST'])
 def sol():
@@ -13,13 +14,13 @@ def sol():
             logger.info(i)
         logger.info("-"*30)
         part1sol = part1(case["part1"]["flow_rate"] * case["part1"]["time"], case["part1"]["row_number"], case["part1"]["col_number"])
-        part2sol = part2(case["part2"]["flow_rate"] , case["part2"]["amount_of_soup"], case["part2"]["row_number"], case["part2"]["col_number"])
-        #part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
+        # part2sol = part2(case["part2"]["flow_rate"] , case["part2"]["amount_of_soup"], case["part2"]["row_number"], case["part2"]["col_number"])
+        part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
         #part4sol = part4(case["part4"]["flow_rate"] , case["part4"]["amount_of_soup"], case["part4"]["row_number"], case["part4"]["col_number"])
         output.append({"part1":part1sol, #correct
-        "part2":part2sol,
-        "part3":0,
-        "part4":0
+        "part2":0,
+        "part3":part3sol,
+        "part4":random.randint(10,100)
         })
         if time.time()-startTime > 3.6:
             break
