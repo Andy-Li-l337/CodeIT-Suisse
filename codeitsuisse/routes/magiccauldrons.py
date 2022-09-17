@@ -18,9 +18,9 @@ def sol():
         part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
         part4sol = part4(case["part4"]["flow_rate"] , case["part4"]["amount_of_soup"], case["part4"]["row_number"], case["part4"]["col_number"])
         output.append({"part1":part1sol, #correct
-        "part2":0,
+        "part2":part2sol,
         "part3":part3sol,
-        "part4":0
+        "part4":part4sol
         })
         if time.time()-startTime > 3.6:
             break
@@ -115,6 +115,6 @@ def hundredFiftyCauldronsSearch(total,row,col):
                 waterInLevel = True
         level += 1
     
-    for i in cauldrons:
-        print(i[0:5])
+    # for i in cauldrons:
+    #     print(i[0:5])
     return cauldrons[row][col]
