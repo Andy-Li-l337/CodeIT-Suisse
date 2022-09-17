@@ -9,13 +9,13 @@ def naive():
     for inputList in request.get_json():
         outputList = []
         for elem in inputList:
+            maxValue = 1
             while elem != 1:
-                maxValue = 1
                 if elem % 2:
-                    elem /= 2
+                    elem = 3*elem + 1
                 else:
-                    elem = 4*elem + 3
+                    elem //= 2
                 maxValue = max(elem, maxValue)
-            maxValue.append(outputList)
+            outputList.append(maxValue)
         output.append(outputList)
     return jsonify(output)
