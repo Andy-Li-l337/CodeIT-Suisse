@@ -3,7 +3,7 @@ import json
 from flask import request, jsonify
 from codeitsuisse import app
 logger = logging.getLogger(__name__)
-@app.route("/stonks", methods=['POST'])
+@app.route("/%20stonks", methods=['POST'])
 def sol():
     for case in request.get_json():
         energy = case['energy']
