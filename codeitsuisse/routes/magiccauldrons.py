@@ -45,7 +45,7 @@ def searchPart2(lowT,upT,rate,TargetAmt,row,col):
             upT = midT
         else:
             lowT = midT
-        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.3 and step < 20
+        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.1 and step < 20
         step += 1
     return round(midT)
 def part3(water,row,col):
@@ -68,7 +68,7 @@ def searchPart4(lowT,upT,rate,TargetAmt,row,col):
             upT = midT
         else:
             lowT = midT
-        condition = abs(hundredFiftyCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.3 and step < 20
+        condition = abs(hundredFiftyCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.1 and step < 20
         step += 1
     return round(midT)
 
@@ -102,5 +102,5 @@ def hundredFiftyCauldronsSearch(X, i, j):
             glass[index + row] += (X / 2)
             glass[index + row + 1] += (X / 2)
             index+=1
-    print(glass)
+    #print(glass)
     return glass[int(i * (i - 1) /2 + j - 1)]
