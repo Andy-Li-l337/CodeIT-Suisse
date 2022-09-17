@@ -34,7 +34,7 @@ def stonkSolve():
                     absReturn = 0
                     investments = dict()
                     orders = []
-                    for company, change in sorted(pctChangeTable.items(),key=lambda x:x[1]):
+                    for company, change in sorted(pctChangeTable.items(),key=lambda x:x[1],reverse=True):
                         if capitalAvailable < min(timeline[curYear].values(),key= lambda x:x[0])[0]:
                             break
                         # print("REACH HERE")
@@ -56,11 +56,18 @@ def stonkSolve():
             gogobackbackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(-1,[0])[0]
             gogobackbackEarnings += getMaxYearReturn(2035,capital+gogobackbackEarnings).get(1,[0])[0]
             gogobackbackEarnings += getMaxYearReturn(2036,capital+gogobackbackEarnings).get(1,[0])[0]
+            alter1gogobackbackEarnings = getMaxYearReturn(2036,capital).get(-1,[0])[0]
+            alter1gogobackbackEarnings += getMaxYearReturn(2036,capital+alter1gogobackbackEarnings).get(1,[0])[0]
+            alter2gogobackbackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(-1,[0])[0]
+            alter2gogobackbackEarnings += getMaxYearReturn(2036,capital+gogobackbackEarnings).get(1,[0])[0]
+            alter3gogobackbackEarnings = getMaxYearReturn(2036,capital).get(-1,[0])[0]
+            alter3gogobackbackEarnings += getMaxYearReturn(2035,capital+gogobackbackEarnings).get(1,[0])[0]
+            alter3gogobackbackEarnings += getMaxYearReturn(2036,capital+gogobackbackEarnings).get(1,[0])[0]
             gogobacktwoEarnings =  initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(-1,[0])[0]
             gogobacktwoEarnings += getMaxYearReturn(2035,capital+gogobackbackEarnings).get(2,[0])[0]
             gobackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(1,[0])[0]
             gobackgobackEarnings = gobackEarnings * 2
-            fourEnergy = (gotwobacktwoEarnings,gotwobackbackEarnings,gogobackbackEarnings,gobackgobackEarnings,gogobacktwoEarnings)
+            fourEnergy = (gotwobacktwoEarnings,gotwobackbackEarnings,gogobackbackEarnings,gobackgobackEarnings,gogobacktwoEarnings,alter1gogobackbackEarnings,alter2gogobackbackEarnings,alter3gogobackbackEarnings)
             print(fourEnergy)
             if max(fourEnergy) > 0:
                 if max(fourEnergy) == gotwobacktwoEarnings:
@@ -186,13 +193,86 @@ def stonkSolve():
                     if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
                         for com,qty in previousInvestment.items():
                             steps.append( f"s-{com}-{qty}")
-                    if getMaxYearReturn(2035,capital+initialInvestment.get(-2,[0])[0]).get(2,[0,{},0,[]])[0] > 0:
-                        steps +=getMaxYearReturn(2035,capital+initialInvestment.get(-2,[0])[0]).get(2,[0,{},0,[]])[3]
-                        previousInvestment = getMaxYearReturn(2035,capital+initialInvestment.get(-2,[0])[0]).get(2,[0,{},0,[]])[1]
+                    if getMaxYearReturn(2035,capital+balance).get(2,[0,{},0,[]])[0] > 0 and getMaxYearReturn(2035,capital+balance).get(2,[0,{},0,[]])[0] > getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]:
+                        steps +=getMaxYearReturn(2035,capital+balance).get(2,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2035,capital+balance).get(2,[0,{},0,[]])[1]
                     steps.append( "j-2035-2037")
-                    if getMaxYearReturn(2035,capital+initialInvestment.get(-2,[0])[0]).get(2,[0,{},0,[]])[0] > 0:
+                    if getMaxYearReturn(2035,capital+balance).get(2,[0,{},0,[]])[0] > 0 and getMaxYearReturn(2035,capital+balance).get(2,[0,{},0,[]])[0] > getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]:
                         for com,qty in previousInvestment.items():
                             steps.append( f"s-{com}-{qty}")
+                elif max(fourEnergy) == alter1gogobackbackEarnings:
+                    steps.append( "j-2037-2036")
+                    if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
+                        steps+=getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0]
+                    steps.append( "j-2036-2035")
+                    if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+                    steps.append( "j-2035-2036")
+                    if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
+                        steps+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]
+                    steps.append( "j-2037-2036")
+                    if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+                elif max(fourEnergy)==alter2gogobackbackEarnings:
+                    balance = 0
+                    if initialInvestment.get(-1,[0,{},0,[]])[0] > 0:
+                        steps.append+=initialInvestment.get(-1,[0,{},0,[]])[3] 
+                        balance = initialInvestment.get(-1,[0,{},0,[]])[0]
+                    steps.append( "j-2037-2036")
+                    if initialInvestment.get(-1,[0,{},0,[]])[0] > 0:
+                        for com,qty in initialInvestment.get(-1,[0,{},0,[]])[1].items():
+                            steps.append( f"s-{com}-{qty}")
+                    if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
+                        steps+=getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0]
+                    steps.append( "j-2036-2035")
+                    if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+                    steps.append( "j-2035-2036")
+                    if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
+                        steps+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]
+                    steps.append( "j-2036-2037")
+                    if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+                elif max(fourEnergy) == alter3gogobackbackEarnings:
+                    balance = 0
+                    steps.append( "j-2037-2036")
+                    if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
+                        steps+=getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0]
+                    steps.append( "j-2036-2035")
+                    if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+                    if getMaxYearReturn(2035,capital+balance).get(1,[0,{},0,[]])[0]>0:
+                        steps+=getMaxYearReturn(2035,capital+balance).get(1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2035,capital+balance).get(1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2035,capital+balance).get(1,[0,{},0,[]])[0]
+                    steps.append( "j-2035-2036")
+                    if getMaxYearReturn(2035,capital+balance).get(1,[0,{},0,[]])[0]>0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+                    if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
+                        steps+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
+                        previousInvestment = getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[1]
+                        balance += getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]
+                    steps.append( "j-2036-2037")
+                    if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
+                        for com,qty in previousInvestment.items():
+                            steps.append( f"s-{com}-{qty}")
+
             print(steps)
             print("-"*30)
         output.append(steps)
