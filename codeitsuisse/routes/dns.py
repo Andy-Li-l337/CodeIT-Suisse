@@ -47,9 +47,9 @@ class LRUCache:
 @app.route("/simulateQuery",methods=["POST"])
 @app.route("/ /simulateQuery",methods=["POST"])
 def makeQuery():
-    with open("state.json","a+") as f:
+    with open("state.json","r") as f:
         count = int(f.read())
-        f.truncate(0)
+    with open("state.json","w") as f:
         f.write(str(count+1))
     # if count == 0:
     #     logger.info(request.get_json())
