@@ -56,9 +56,10 @@ def makeQuery():
             output.append({"status":"invalid",
             "ipAddress":"null"})
             continue
-        if cache.get(url) != -1:
+        cachedUrl = cache.get(url)
+        if cachedUrl != -1:
             output.append({"status":"cache hit",
-            "ipAddress":cache.get(url)})
+            "ipAddress":cachedUrl})
             continue
         output.append({"status":"cache miss",
             "ipAddress":dnsMap[url]})
