@@ -50,6 +50,7 @@ def makeQuery():
     with open('lookUp.json') as f:
         dnsMap = (json.load(f))['lookupTable']
         logger.info(dnsMap)
+    logger.info(request.get_json())
     for url in request.get_json()['log']:
         if url not in dnsMap:
             output.append({"status":"invalid",

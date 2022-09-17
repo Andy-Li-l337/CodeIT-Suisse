@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 @app.route("/%20stonks", methods=['POST'])
 @app.route("/ stonks", methods=['POST'])
 def stoneSolve():
+    output = []
     for case in request.get_json():
         energy = case['energy']
         print(f'{energy=}')
@@ -15,4 +16,4 @@ def stoneSolve():
         for i,j in timeline.items():
             print(i, j)
         print("-"*30)
-    return jsonify({})
+    return jsonify("🔴")
