@@ -97,8 +97,8 @@ def hundredFiftyCauldronsSearch(X, i, j):
     for row in range(1,i):
         for col in range(1,row+1):
             X = glass[index]
-            glass[index] = (100 if i % 2 else 150) if (X >= (100 if i % 2 else 150)) else X
-            X = (X - 1) if (X >= (100 if i % 2 else 150)) else 0
+            glass[index] = (100 if col % 2 else 150) if (X >= (100 if col % 2 else 150)) else X
+            X = (X - 1) if (X >= (100 if col % 2 else 150)) else 0
             glass[index + row] += (X / 2)
             glass[index + row + 1] += (X / 2)
             index+=1
