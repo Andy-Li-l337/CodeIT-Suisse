@@ -5,3 +5,4 @@ import codeitsuisse.routes.tickerStream
 import codeitsuisse.routes.manualEndpoint
 import codeitsuisse.routes.collatz
 import codeitsuisse.routes.magiccauldrons
+import codeitsuisse.routes.stonks
