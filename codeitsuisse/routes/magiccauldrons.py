@@ -25,14 +25,13 @@ def sol():
 def part1(water,row,col):
     return round(hundredCauldronsSearch(water,row,col),2)
 def part2(rate,amt,row,col):
-    capacity = 100
+    upT = 999
     lowT = 1
-    upT = row*(row+1)/2 * 100
-    lowT = max(row+col-2,1)*100//rate
     newT = searchPart2(lowT,upT,rate,amt,row,col)
     low = hundredCauldronsSearch((newT-1)*rate,row,col)
     mid = hundredCauldronsSearch(newT*rate,row,col)
     up = hundredCauldronsSearch((newT+1)*rate,row,col) 
+    print("DONE Searching")
     if amt < (low+mid)/2:
         return newT-1
     if (low+mid)/2 < amt < (mid+up)/2:
@@ -45,35 +44,24 @@ def part2(rate,amt,row,col):
         return newT+1 if newT % 2 else newT  
 def searchPart2(lowT,upT,rate,TargetAmt,row,col):
     condition = True
+    step = 0
     while condition:
         midT = (lowT+upT)/2
+        # print(lowT,midT,upT)
+        # print(hundredCauldronsSearch(lowT*rate,row,col)- TargetAmt, (hundredCauldronsSearch(midT*rate,row,col) - TargetAmt))
         if (hundredCauldronsSearch(lowT*rate,row,col) - TargetAmt) * (hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) < 0:
             upT = midT
         else:
             lowT = midT
-        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5
+        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5 and step < 20
+        step += 1
     return int(midT+0.5)
 def part3(water,row,col):
-    cauldrons = [[0 for x in range(200)] for y in range(200)] 
-    cauldrons[0][0] = float(water)
-    level = 0
-    waterInLevel = True
-    capacity = 100
-    while(waterInLevel):
-        waterInLevel = False
-        for i in range(level+1):
-            if cauldrons[level][i] > capacity:
-                extraWater = cauldrons[level][i] - capacity 
-                cauldrons[level][i] = capacity * (1 if level % 2 else 1.5)
-                cauldrons[level][i] += extraWater / 2
-                cauldrons[level][i+1] += extraWater / 2
-                waterInLevel = True
-        level += 1
-    return round(cauldrons[row][col],2)
+    return round(hundredFiftyCauldronsSearch(water,row,col),2)
 
 def part4(rate,amt,row,col):
-    upT = max(row*(row+1)/2,1) * 150
-    lowT = max(row+col-2,0)*100//rate
+    upT = 999
+    lowT = 1
     newT = searchPart4(lowT,upT,rate,amt,row,col)
     low = hundredFiftyCauldronsSearch((newT-1)*rate,row,col)
     mid = hundredFiftyCauldronsSearch(newT*rate,row,col)
@@ -91,19 +79,23 @@ def part4(rate,amt,row,col):
 
 def searchPart4(lowT,upT,rate,TargetAmt,row,col):
     condition = True
+    step = 0
     while condition:
         midT = (lowT+upT)/2
+        # print(lowT,midT,upT)
+        # print(hundredFiftyCauldronsSearch(lowT*rate,row,col)- TargetAmt, (hundredFiftyCauldronsSearch(midT*rate,row,col) - TargetAmt))
         if (hundredFiftyCauldronsSearch(lowT*rate,row,col) - TargetAmt) * (hundredFiftyCauldronsSearch(midT*rate,row,col) - TargetAmt) < 0:
             upT = midT
         else:
             lowT = midT
-        condition = abs(hundredFiftyCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5
+        condition = abs(hundredFiftyCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5 and step < 20
+        step += 1
     return int(midT+0.5)
 
 def hundredCauldronsSearch(total,row,col):
     capacity = 100
-    cauldrons = [[0 for x in range(200)] for y in range(200)] 
-    cauldrons[0][0] = total
+    cauldrons = [[0 for x in range(500)] for y in range(500)] 
+    cauldrons[0][0] = float(total)
     level = 0
     waterInLevel = True
     while(waterInLevel):
@@ -111,16 +103,20 @@ def hundredCauldronsSearch(total,row,col):
         for i in range(level+1):
             if cauldrons[level][i] > capacity:
                 extraWater = cauldrons[level][i] - capacity
-                cauldrons[level][i] = capacity
-                cauldrons[level][i] += extraWater / 2
-                cauldrons[level][i+1] += extraWater / 2
+                try:
+                    cauldrons[level][i] = capacity
+                    cauldrons[level+1][i] += extraWater / 2
+                    cauldrons[level+1][i+1] += extraWater / 2
+                except:
+                    raise OverflowError(level, i)
                 waterInLevel = True
         level += 1
+        #assert(level<300)
     return cauldrons[row][col]
 
 def hundredFiftyCauldronsSearch(total,row,col):
     capacity = 100
-    cauldrons = [[0 for x in range(200)] for y in range(200)] 
+    cauldrons = [[0 for x in range(500)] for y in range(500)] 
     cauldrons[0][0] = total
     level = 0
     waterInLevel = True
@@ -129,9 +125,13 @@ def hundredFiftyCauldronsSearch(total,row,col):
         for i in range(level+1):
             if cauldrons[level][i] > capacity:
                 extraWater = cauldrons[level][i] - capacity * (1 if level % 2 else 1.5)
-                cauldrons[level][i] = capacity
-                cauldrons[level][i] += extraWater / 2
-                cauldrons[level][i+1] += extraWater / 2
+                try:
+                    cauldrons[level][i] = capacity
+                    cauldrons[level+1][i] += extraWater / 2
+                    cauldrons[level+1][i+1] += extraWater / 2
+                except:
+                    raise OverflowError(level, i)
                 waterInLevel = True
         level += 1
+        # print(level)
     return cauldrons[row][col]
