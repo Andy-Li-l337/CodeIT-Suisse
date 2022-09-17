@@ -44,7 +44,7 @@ def searchPart2(lowT,upT,rate,TargetAmt,row,col):
             upT = midT
         else:
             lowT = midT
-        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5 and step < 20
+        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 1 and step < 20
         step += 1
     return round(midT)
 def part3(water,row,col):
