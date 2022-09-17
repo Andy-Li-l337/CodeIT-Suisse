@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 @app.route("/ /instantiateDNSLookup", methods=["POST"])
 def startDNS():
     with open("state.json","w") as g:
-        g.write(0)
+        g.write("0")
     with open("lookUp.json","w") as f:
         json.dump(request.get_json(),f)
     return jsonify({"success":True})
@@ -51,7 +51,7 @@ def makeQuery():
         count = int(f.read())
         f.truncate(0)
         f.write(str(count+1))
-    if count == 1:
+    if count == 0:
         logger.info(request.get_json())
         return jsonify({})
     cache = LRUCache(request.get_json()['cacheSize'])
