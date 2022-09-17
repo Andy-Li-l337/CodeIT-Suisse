@@ -74,7 +74,7 @@ def searchPart4(lowT,upT,rate,TargetAmt,row,col):
 
 def hundredCauldronsSearch(total,row,col):
     capacity = 100
-    cauldrons = [[0 for x in range(500)] for y in range(500)] 
+    cauldrons = [[0 for x in range(436)] for y in range(436)] 
     cauldrons[0][0] = float(total)
     level = 0
     waterInLevel = True
@@ -97,7 +97,7 @@ def hundredCauldronsSearch(total,row,col):
 
 def hundredFiftyCauldronsSearch(total,row,col):
     capacity = 100
-    cauldrons = [[0 for x in range(500)] for y in range(500)] 
+    cauldrons = [[0 for x in range(436)] for y in range(436)] 
     cauldrons[0][0] = total
     level = 0
     waterInLevel = True
