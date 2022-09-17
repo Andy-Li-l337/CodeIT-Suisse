@@ -49,6 +49,7 @@ def makeQuery():
     output = []
     with open('lookUp.json') as f:
         dnsMap = (json.load(f))['lookupTable']
+        logger.info(dnsMap)
     for url in request.get_json()['log']:
         if url not in dnsMap:
             output.append({"status":"invalid",
@@ -61,7 +62,14 @@ def makeQuery():
         output.append({"status":"cache miss",
             "ipAddress":dnsMap[url]})
         cache.put(url,dnsMap[url])
+        
     return jsonify(output)
+
+@app.route("/clear",methods=["POST"])
+def resetDNS():
+    with open('lookUp.json', "w") as f:
+        json.dump({"lookupTable":{}},f)
+    return jsonify({"success":True})
         
 
 
