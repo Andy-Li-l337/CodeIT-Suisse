@@ -6,7 +6,8 @@ from codeitsuisse import app
 @app.route("/%20cryptocollapz", methods=['POST'])
 @app.route("/ cryptocollapz", methods=['POST'])
 def naive():
-    logging.debug(request.get_json())
+    app.logger.debug(request.get_json())
+    #print(request.get_json())
     output = []
     for inputList in request.get_json():
         outputList = []
