@@ -6,6 +6,8 @@ from codeitsuisse import app
 logger = logging.getLogger(__name__)
 @app.route("/magiccauldrons", methods=['POST'])
 def sol():
+    logger.info(request.get_json())
+    logger.info("-"*30)
     output = []
     for case in request.get_json():
         part1sol = part1(case["part1"]["flow_rate"] * case["part1"]["time"], case["part1"]["row_number"], case["part1"]["col_number"])
