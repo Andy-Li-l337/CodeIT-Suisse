@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 def stonkSolve():
     output = []
     for case in request.get_json():
+        print(request.get_json())
         steps = []
         energy = case['energy']
         print(f'{energy=}')
@@ -33,20 +34,17 @@ def stonkSolve():
                     absReturn = 0
                     investments = dict()
                     orders = []
-                    # print("*"*30)
-                    set(timeline.get(curYear,{}).keys())
-                    set(timeline.get(targetYear,{}).keys())
-                    # print("*"*30)
                     for company, change in sorted(pctChangeTable.items(),key=lambda x:x[1]):
                         if capitalAvailable < min(timeline[curYear].values(),key= lambda x:x[0])[0]:
                             break
-                        if capitalAvailable // timeline[curYear][company][0] > 0:
+                        # print("REACH HERE")
+                        if capitalAvailable // timeline[curYear][company][0] > 0 and change > 0:
                             investedCapital = capitalAvailable - capitalAvailable%timeline[curYear][company][0]
                             investments[company] = capitalAvailable // timeline[curYear][company][0]
                             orders.append(f"b-{company}-{investments[company]}")
                             absReturn += change*investedCapital
                             capitalAvailable -= investedCapital
-                    deltaYearReturnTable[int(targetYear)-int(curYear)] = max(int(absReturn+0.5),0), investments, capitalAvailable, orders
+                    deltaYearReturnTable[int(targetYear)-int(curYear)] = max(absReturn,0), investments, capitalAvailable, orders
                 # print(deltaYearReturnTable)
                 return deltaYearReturnTable
                 #CHECK absReturn positive before using investments!
@@ -63,7 +61,7 @@ def stonkSolve():
             gobackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(1,[0])[0]
             gobackgobackEarnings = gobackEarnings * 2
             fourEnergy = (gotwobacktwoEarnings,gotwobackbackEarnings,gogobackbackEarnings,gobackgobackEarnings)
-            print(fourEnergy)
+            # print(fourEnergy)
             if max(fourEnergy) > 0:
                 if max(fourEnergy) == gotwobacktwoEarnings:
                     if initialInvestment.get(-2,[0,{},0,[]])[0] > 0:
@@ -141,14 +139,14 @@ def stonkSolve():
                 elif max(fourEnergy) == gobackgobackEarnings:
                     balance = 0
                     if initialInvestment.get(-1,[0,{},0,[]])[0] > 0:
-                        steps.append+=initialInvestment.get(-1,[0,{},0,[]])[3] 
+                        steps+=initialInvestment.get(-1,[0,{},0,[]])[3] 
                         balance = initialInvestment.get(-1,[0,{},0,[]])[0]
                     steps.append( "j-2037-2036")
                     if initialInvestment.get(-1,[0,{},0,[]])[0] > 0:
                         for com,qty in initialInvestment.get(-1,[0,{},0,[]])[1].items():
                             steps.append( f"s-{com}-{qty}")
                     if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
-                        steps.append+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
+                        steps+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
                         previousInvestment = getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[1]
                         balance += getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]
                     steps.append( "j-2036-2037")
@@ -156,7 +154,7 @@ def stonkSolve():
                         for com,qty in previousInvestment.items():
                             steps.append( f"s-{com}-{qty}")
                     if getMaxYearReturn(2037,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
-                        steps.append+=getMaxYearReturn(2037,capital+balance).get(-1,[0,{},0,[]])[3]
+                        steps+=getMaxYearReturn(2037,capital+balance).get(-1,[0,{},0,[]])[3]
                         previousInvestment = getMaxYearReturn(2037,capital+balance).get(-1,[0,{},0,[]])[1]
                         balance += getMaxYearReturn(2037,capital+balance).get(-1,[0,{},0,[]])[0]
                     steps.append( "j-2037-2036")
@@ -164,7 +162,7 @@ def stonkSolve():
                         for com,qty in previousInvestment.items():
                             steps.append( f"s-{com}-{qty}")
                     if getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0] > 0:
-                        steps.append+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
+                        steps+=getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[3]
                         previousInvestment = getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[1]
                         balance += getMaxYearReturn(2036,capital+balance).get(1,[0,{},0,[]])[0]
                     steps.append( "j-2036-2037")
