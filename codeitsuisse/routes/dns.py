@@ -6,7 +6,7 @@ from flask import request, jsonify
 from codeitsuisse import app
 logger = logging.getLogger(__name__)
 
-@app.route("/instantiateDNSLookup", methods=["POST"])
+@app.route("/ /instantiateDNSLookup", methods=["POST"])
 def startDNS():
     with open("lookUp.json","w") as f:
         json.dump(request.get_json(),f)
