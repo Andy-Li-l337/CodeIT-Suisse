@@ -115,7 +115,7 @@ def stonkSolve():
                         for com,qty in initialInvestment.get(-1,[0,{},0,[]])[1].items():
                             steps.append( f"s-{com}-{qty}")
                     if getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0] > 0:
-                        steps.append+=getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[3]
+                        steps.append(getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[3])
                         previousInvestment = getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[1]
                         balance += getMaxYearReturn(2036,capital+balance).get(-1,[0,{},0,[]])[0]
                     steps.append( "j-2036-2035")
