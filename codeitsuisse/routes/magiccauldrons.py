@@ -14,13 +14,13 @@ def sol():
             logger.info(i)
         logger.info("-"*30)
         part1sol = part1(case["part1"]["flow_rate"] * case["part1"]["time"], case["part1"]["row_number"], case["part1"]["col_number"])
-        #part2sol = part2(case["part2"]["flow_rate"] , case["part2"]["amount_of_soup"], case["part2"]["row_number"], case["part2"]["col_number"])
+        part2sol = part2(case["part2"]["flow_rate"] , case["part2"]["amount_of_soup"], case["part2"]["row_number"], case["part2"]["col_number"])
         part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
-        #part4sol = part4(case["part4"]["flow_rate"] , case["part4"]["amount_of_soup"], case["part4"]["row_number"], case["part4"]["col_number"])
+        part4sol = part4(case["part4"]["flow_rate"] , case["part4"]["amount_of_soup"], case["part4"]["row_number"], case["part4"]["col_number"])
         output.append({"part1":part1sol, #correct
-        #"part2":part2sol,
+        "part2":part2sol,
         "part3":part3sol,
-        #"part4":part4sol
+        "part4":part4sol
         })
         if time.time()-startTime > 3.2:
             break
@@ -45,7 +45,7 @@ def searchPart2(lowT,upT,rate,TargetAmt,row,col):
             upT = midT
         else:
             lowT = midT
-        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 1 and step < 20
+        condition = abs(hundredCauldronsSearch(midT*rate,row,col) - TargetAmt) > 0.5 and step < 20
         step += 1
     return round(midT)
 def part3(water,row,col):
