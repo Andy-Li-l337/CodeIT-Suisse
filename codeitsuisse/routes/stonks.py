@@ -22,7 +22,6 @@ def stonkSolve():
             portfolio={}
             for i,j in companyTimeline.items():
                 print(i, j)
-            print(timeline)
             def getMaxYearReturn(curYear,usableCapital):
                 # if inventory:
                 #     usableCapital += sum(timeline[curYear][com][0]*qty for com,qty in inventory.items() if com in timeline[curYear])
@@ -63,7 +62,6 @@ def stonkSolve():
             gobackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(1,[0])[0]
             gobackgobackEarnings = gobackEarnings * 2
             fourEnergy = (gotwobacktwoEarnings,gotwobackbackEarnings,gogobackbackEarnings,gobackgobackEarnings)
-            print(getMaxYearReturn(2037,capital))
             if max(fourEnergy) > 0:
                 if max(fourEnergy) == gotwobacktwoEarnings:
                     if initialInvestment.get(-2,[0,{},0,[]])[0] > 0:
