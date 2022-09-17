@@ -164,6 +164,7 @@ def stonkSolve():
                     if getMaxYearReturn(2036,capital+balance).get(1,[0,0,0,""])[0] > 0:
                         for com,qty in previousInvestment.items():
                             steps += f"s-{com}-{qty}"
+            print(steps)
             print("-"*30)
         output.append(steps)
         
