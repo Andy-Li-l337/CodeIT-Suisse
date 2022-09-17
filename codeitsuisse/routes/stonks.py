@@ -41,8 +41,8 @@ def stonkSolve():
             yearYield = getMaxYearReturn(nowYear,capital)
             highestReturnOption = max(yearYield, key=lambda key: yearYield[key])
             if yearYield[highestReturnOption] > 0:
-                    
-            
+
+                pass
 
                 
             print("-"*30)
