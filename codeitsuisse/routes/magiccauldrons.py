@@ -21,7 +21,7 @@ def sol():
         "part3":part3sol,
         "part4":0
         })
-        if time.time()-startTime > 3.8:
+        if time.time()-startTime > 3.6:
             break
     logger.info("*"*30)
     for i in output:
