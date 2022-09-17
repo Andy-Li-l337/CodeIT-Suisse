@@ -18,7 +18,7 @@ def sol():
         "part4":part4sol})
     return output
 def part1(water,row,col):
-    cauldrons = [[0 for x in range(100)] for y in range(100)] 
+    cauldrons = [[0 for x in range(200)] for y in range(200)] 
     cauldrons[0][0] = float(water)
     level = 0
     waterInLevel = True
@@ -42,7 +42,7 @@ def part2(rate,amt,row,col):
     while(prevamt < amt):
         t += 1
         prevamt = curamt
-        cauldrons = [[0 for x in range(100)] for y in range(100)] 
+        cauldrons = [[0 for x in range(200)] for y in range(200)] 
         cauldrons[0][0] = float(rate*t)
         level = 0
         waterInLevel = True
@@ -64,7 +64,7 @@ def part2(rate,amt,row,col):
     return t-1 if t % 2 else t
     
 def part3(water,row,col):
-    cauldrons = [[0 for x in range(100)] for y in range(100)] 
+    cauldrons = [[0 for x in range(200)] for y in range(200)] 
     cauldrons[0][0] = float(water)
     level = 0
     waterInLevel = True
@@ -89,7 +89,7 @@ def part4(rate,amt,row,col):
     while(prevamt < amt):
         t += 1
         prevamt = curamt
-        cauldrons = [[0 for x in range(100)] for y in range(100)] 
+        cauldrons = [[0 for x in range(200)] for y in range(200)] 
         cauldrons[0][0] = float(rate*t)
         level = 0
         waterInLevel = True
