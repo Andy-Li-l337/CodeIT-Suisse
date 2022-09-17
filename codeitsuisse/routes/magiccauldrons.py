@@ -6,10 +6,12 @@ from codeitsuisse import app
 logger = logging.getLogger(__name__)
 @app.route("/magiccauldrons", methods=['POST'])
 def sol():
-    logger.info(request.get_json())
-    logger.info("-"*30)
+    
     output = []
     for case in request.get_json():
+        for i in case.items():
+            logger.info(i)
+        logger.info("-"*30)
         part1sol = part1(case["part1"]["flow_rate"] * case["part1"]["time"], case["part1"]["row_number"], case["part1"]["col_number"])
         part2sol = part2(case["part2"]["flow_rate"] , case["part2"]["amount_of_soup"], case["part2"]["row_number"], case["part2"]["col_number"])
         part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
@@ -18,7 +20,7 @@ def sol():
         "part2":part2sol,
         "part3":part3sol,
         "part4":part4sol})
-    return output
+    return jsonify(output)
 def part1(water,row,col):
     cauldrons = [[0 for x in range(200)] for y in range(200)] 
     cauldrons[0][0] = float(water)
