@@ -31,7 +31,7 @@ def sol():
 def part1(water,row,col):
     return round(hundredCauldronsSearch(water,row,col),2)
 def part2(rate,amt,row,col):
-    upT = (row+col+2)*100//rate
+    upT = min((row+col+2)*100//rate,999)
     lowT = 1
     newT = searchPart2(lowT,upT,rate,amt,row,col)
     return round(newT)
