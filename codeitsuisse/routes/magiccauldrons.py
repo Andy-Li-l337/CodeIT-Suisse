@@ -13,9 +13,9 @@ def sol():
         for i in case.items():
             logger.info(i)
         logger.info("-"*30)
-        #part1sol = part1(case["part1"]["flow_rate"] * case["part1"]["time"], case["part1"]["row_number"], case["part1"]["col_number"])
+        part1sol = part1(case["part1"]["flow_rate"] * case["part1"]["time"], case["part1"]["row_number"], case["part1"]["col_number"])
         part2sol = part2(case["part2"]["flow_rate"] , case["part2"]["amount_of_soup"], case["part2"]["row_number"], case["part2"]["col_number"])
-        #part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
+        part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
         part4sol = part4(case["part4"]["flow_rate"] , case["part4"]["amount_of_soup"], case["part4"]["row_number"], case["part4"]["col_number"])
         output.append({"part1":0, #correct
         "part2":part2sol,
@@ -72,49 +72,34 @@ def searchPart4(lowT,upT,rate,TargetAmt,row,col):
         step += 1
     return int(midT+0.5)
 
-def hundredCauldronsSearch(total,row,col):
+def hundredCauldronsSearch(X, i, j):
+    i,j = i+1,j+1
+    glass = [0]*int(i *(i + 1) / 2)
+    index = 0
+    glass[index] = X
     capacity = 100
-    cauldrons = [[0 for x in range(436)] for y in range(436)] 
-    cauldrons[0][0] = float(total)
-    level = 0
-    waterInLevel = True
-    while(waterInLevel):
-        waterInLevel = False
-        for i in range(level+1):
-            if cauldrons[level][i] > capacity:
-                extraWater = cauldrons[level][i] - capacity
-                try:
-                    cauldrons[level][i] = capacity
-                    cauldrons[level+1][i] += extraWater / 2
-                    cauldrons[level+1][i+1] += extraWater / 2
-                except:
-                    raise OverflowError(level, i)
-                waterInLevel = True
-        level += 1
-        #assert(level<300)
-    return cauldrons[row][col]
+    for row in range(1,i):
+        for col in range(1,row+1):
+            X = glass[index]
+            glass[index] = capacity if (X >= capacity) else X
+            X = (X - 1) if (X >= capacity) else 0
+            glass[index + row] += (X / 2)
+            glass[index + row + 1] += (X / 2)
+            index+=1
+    return glass[int(i * (i - 1) /2 + j - 1)]
 
-
-def hundredFiftyCauldronsSearch(total,row,col):
+def hundredFiftyCauldronsSearch(X, i, j):
+    i,j = i+1,j+1
+    glass = [0]*int(i *(i + 1) / 2)
+    index = 0
+    glass[index] = X
     capacity = 100
-    cauldrons = [[0 for x in range(436)] for y in range(436)] 
-    cauldrons[0][0] = total
-    level = 0
-    waterInLevel = True
-    while(waterInLevel):
-        waterInLevel = False
-        for i in range(level+1):
-            if cauldrons[level][i] > capacity * (1 if i % 2 else 1.5):
-                extraWater = cauldrons[level][i] - capacity * (1 if i % 2 else 1.5)
-                try:
-                    cauldrons[level][i] = capacity * (1 if i % 2 else 1.5)
-                    cauldrons[level+1][i] += extraWater / 2
-                    cauldrons[level+1][i+1] += extraWater / 2
-                except:
-                    raise OverflowError(level, i)
-                waterInLevel = True
-        level += 1
-    
-    # for i in cauldrons:
-    #     print(i[0:5])
-    return cauldrons[row][col]
+    for row in range(1,i):
+        for col in range(1,row+1):
+            X = glass[index]
+            glass[index] = (100 if i % 2 else 150) if (X >= (100 if i % 2 else 150)) else X
+            X = (X - 1) if (X >= (100 if i % 2 else 150)) else 0
+            glass[index + row] += (X / 2)
+            glass[index + row + 1] += (X / 2)
+            index+=1
+    return glass[int(i * (i - 1) /2 + j - 1)]
