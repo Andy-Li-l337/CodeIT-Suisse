@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 def stonkSolve():
     output = []
     for case in request.get_json():
-        print(request.get_json())
+        # print(  request.get_json())
         steps = []
         energy = case['energy']
         print(f'{energy=}')
