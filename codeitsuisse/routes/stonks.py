@@ -42,7 +42,7 @@ def stonkSolve():
                             investedCapital = capitalAvailable - capitalAvailable%timeline[curYear][company][0]
                             investments[company] = int(capitalAvailable // timeline[curYear][company][0])
                             orders.append(f"b-{company}-{investments[company]}")
-                            absReturn += change*investedCapital
+                            absReturn += round(change*investedCapital)
                             capitalAvailable -= investedCapital
                     deltaYearReturnTable[int(targetYear)-int(curYear)] = max(absReturn,0), investments, capitalAvailable, orders
                 # print(deltaYearReturnTable)
@@ -65,8 +65,9 @@ def stonkSolve():
             alter3gogobackbackEarnings += getMaxYearReturn(2036,capital+gogobackbackEarnings).get(1,[0])[0]
             gogobacktwoEarnings =  initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(-1,[0])[0]
             gogobacktwoEarnings += getMaxYearReturn(2035,capital+gogobackbackEarnings).get(2,[0])[0]
-            gobackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(1,[0])[0]
-            gobackgobackEarnings = gobackEarnings * 2
+            gobackgobackEarnings = initialInvestment.get(-1,[0])[0] + getMaxYearReturn(2036,capital+initialInvestment.get(-1,[0])[0]).get(1,[0])[0]
+            gobackgobackEarnings +=  getMaxYearReturn(2037,capital+gobackgobackEarnings).get(-1,[0])[0]
+            gobackgobackEarnings +=  getMaxYearReturn(2036,capital+gobackgobackEarnings).get(1,[0])[0]
             fourEnergy = (gotwobacktwoEarnings,gotwobackbackEarnings,gogobackbackEarnings,gobackgobackEarnings,gogobacktwoEarnings,alter1gogobackbackEarnings,alter2gogobackbackEarnings,alter3gogobackbackEarnings)
             print(fourEnergy)
             if max(fourEnergy) > 0:
