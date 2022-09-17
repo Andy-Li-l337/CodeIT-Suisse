@@ -3,6 +3,7 @@ import json
 from flask import request, jsonify
 from codeitsuisse import app
 
+@app.route("/%20cryptocollapz", methods=['POST'])
 @app.route("/ cryptocollapz", methods=['POST'])
 def naive():
     logging.debug(request.get_json())
