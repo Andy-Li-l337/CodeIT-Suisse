@@ -43,6 +43,7 @@ class LRUCache:
             self.cache.popitem(last = False)
  
 @app.route("/simulateQuery",methods=["POST"])
+@app.route("/ /simulateQuery",methods=["POST"])
 def makeQuery():
     cache = LRUCache(request.get_json()['cacheSize'])
     output = []
