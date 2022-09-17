@@ -8,12 +8,14 @@ logger = logging.getLogger(__name__)
 @app.route("/instantiateDNSLookup", methods=["POST"])
 @app.route("/ /instantiateDNSLookup", methods=["POST"])
 def startDNS():
+    with open("state.json","w") as g:
+        g.write(0)
     with open("lookUp.json","w") as f:
         json.dump(request.get_json(),f)
     return jsonify({"success":True})
- 
+
 class LRUCache:
- 
+    
     # initialising capacity
     def __init__(self, capacity: int):
         self.cache = OrderedDict()
@@ -41,10 +43,17 @@ class LRUCache:
         self.cache.move_to_end(key)
         if len(self.cache) > self.capacity:
             self.cache.popitem(last = False)
- 
+
 @app.route("/simulateQuery",methods=["POST"])
 @app.route("/ /simulateQuery",methods=["POST"])
 def makeQuery():
+    with open("state.json","a+") as f:
+        count = int(f.read())
+        f.truncate(0)
+        f.write(str(count+1))
+    if count == 1:
+        logger.info(request.get_json())
+        return jsonify({})
     cache = LRUCache(request.get_json()['cacheSize'])
     output = []
     with open('lookUp.json') as f:
@@ -69,6 +78,7 @@ def makeQuery():
 
 @app.route("/clearDNS",methods=["POST"])
 def resetDNS():
+
     with open('lookUp.json', "w") as f:
         json.dump({"lookupTable":{}},f)
     return jsonify({"success":True})
