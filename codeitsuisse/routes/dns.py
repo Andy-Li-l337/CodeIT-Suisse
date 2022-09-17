@@ -3,7 +3,6 @@ import logging
 import json
 import pickle
 from flask import request, jsonify
-from sympy import true
 from codeitsuisse import app
 logger = logging.getLogger(__name__)
 
@@ -11,7 +10,7 @@ logger = logging.getLogger(__name__)
 def startDNS():
     with open("lookUp.json","w") as f:
         json.dump(request.get_json(),f)
-    return jsonify({"success":"true"})
+    return jsonify({"success":True})
  
 class LRUCache:
  
