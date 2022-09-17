@@ -17,9 +17,9 @@ def sol():
         part3sol = part3(case["part3"]["flow_rate"] * case["part3"]["time"], case["part3"]["row_number"], case["part3"]["col_number"])
         part4sol = part4(case["part4"]["flow_rate"] , case["part4"]["amount_of_soup"], case["part4"]["row_number"], case["part4"]["col_number"])
         output.append({"part1":part1sol,
-        "part2":part2sol,
+        "part2":0,
         "part3":part3sol,
-        "part4":part4sol
+        "part4":0
         })
         if time.time()-startTime > 3.8:
             break
