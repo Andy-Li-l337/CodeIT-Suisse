@@ -2,11 +2,11 @@ import logging
 import json
 from flask import request, jsonify
 from codeitsuisse import app
-
+logger = logging.getLogger(__name__)
 @app.route("/%20cryptocollapz", methods=['POST'])
 @app.route("/ cryptocollapz", methods=['POST'])
 def naive():
-    app.logger.debug(request.get_json())
+    logger.info(request.get_json())
     #print(request.get_json())
     output = []
     for inputList in request.get_json():
